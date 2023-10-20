@@ -39,7 +39,22 @@ public class LoginController {
             return "login/loginForm";
         }
 
+        Cookie idcookie = new Cookie("memberId", String.valueOf(loginMember.getId()));
+        response.addCookie(idcookie);
+
         return "redirect:/";
 
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpServletResponse response) {
+        cookieExpiration(response);
+        return "redirect:/";
+    }
+
+    private static void cookieExpiration(HttpServletResponse response) { //Cookie 삭제
+        Cookie cookie = new Cookie("memberId", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
     }
 }
