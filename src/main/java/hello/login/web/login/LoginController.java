@@ -29,26 +29,6 @@ public class LoginController {
         return "login/loginForm";
     }
 
-    /*@PostMapping("/login")
-    public String login(@Validated @ModelAttribute LoginForm form, BindingResult bindingResult, HttpServletResponse response) {
-        if (bindingResult.hasErrors()) {
-            return "login/loginForm";
-        }
-
-        Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
-
-        if (loginMember == null) {
-            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
-            return "login/loginForm";
-        }
-
-        Cookie idcookie = new Cookie("memberId", String.valueOf(loginMember.getId()));
-        response.addCookie(idcookie);
-
-        return "redirect:/";
-
-    }*/
-
     @PostMapping("/login")
     public String login(@Validated @ModelAttribute LoginForm form, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {

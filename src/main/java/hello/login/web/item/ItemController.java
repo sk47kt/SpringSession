@@ -4,6 +4,7 @@ import hello.login.domain.item.Item;
 import hello.login.domain.item.ItemRepository;
 import hello.login.web.item.form.ItemSaveForm;
 import hello.login.web.item.form.ItemUpdateForm;
+import hello.login.web.session.SessionManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Slf4j
@@ -24,7 +27,7 @@ public class ItemController {
     private final ItemRepository itemRepository;
 
     @GetMapping
-    public String items(Model model) {
+    public String items(HttpServletRequest request,Model model) {
         List<Item> items = itemRepository.findAll();
         model.addAttribute("items", items);
         return "items/items";
