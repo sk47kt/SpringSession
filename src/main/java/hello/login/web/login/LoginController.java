@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -30,7 +31,10 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@Validated @ModelAttribute LoginForm form, BindingResult bindingResult, HttpServletRequest request) {
+    public String login(@Validated @ModelAttribute LoginForm form,
+                        BindingResult bindingResult,
+                        HttpServletRequest request,
+                        @RequestParam(value = "redirectURL",defaultValue = "/") String loginCheckURL) {
         if (bindingResult.hasErrors()) {
             return "login/loginForm";
         }
@@ -44,7 +48,7 @@ public class LoginController {
         HttpSession session = request.getSession(); // 세션이있으면 반환 없으면 생성
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember); // 세션에 로그인 회원정보 저장
 
-        return "redirect:/";
+        return "redirect:" + loginCheckURL;
     }
 
     @PostMapping("/logout")
